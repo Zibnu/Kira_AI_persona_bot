@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT;
 if(process.env.NODE_ENV !== "productin") {
     app.listen(PORT, async () => {
-        console.log("Server Is Runing");
+        console.log(`Server Is Runing on ${PORT}`);
 
         if(process.env.WEBHOOK_URL) {
             const fullWebhookUrl = `${process.env.WEBHOOK_URL}/telegram-webhook`;
