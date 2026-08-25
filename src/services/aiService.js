@@ -1,7 +1,7 @@
 const genAI = require("../config/gemini.js");
 
-async function generateAIResponse(botName, botPersona,userBio, history, userText) {
-    let limitedHistory = history.length > 10 ? history.slice(-10) : history;
+async function generateAIResponse({ botName, botPersona, userName, userBio, history, userText }) {
+    let limitedHistory = (history.length > 10) ? history.slice(-10) : (history || []);
 
     const chat = genAI.chats.create({
         model: "gemini-3.1-flash-lite",
@@ -10,6 +10,7 @@ async function generateAIResponse(botName, botPersona,userBio, history, userText
             systemInstruction: `                                                                                                                                  
                 Nama kamu: ${botName}                                                                                                                                 
                 Kepribadian & Karakter kamu: "${botPersona || 'Teman santai dan asik'}"                                                                               
+                Nama user yang mengobrol denganmu: "${userName || 'Teman'}"
                 Latar belakang user yang mengobrol denganmu: "${userBio || 'Teman'}"                                                                                  
                                                                                                                                                                       
                 ATURAN CHATTING (PENTING):                                                                                                                            

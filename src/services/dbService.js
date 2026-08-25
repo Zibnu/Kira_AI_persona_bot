@@ -12,10 +12,11 @@ async function getUser(userId) {
     return data;
 }
 
-async function createUser(userId) {
+async function createUser(userId, userName = null) {
     const { data,error } = await supabase.from("users")
                                     .insert({
                                         user_id: userId,
+                                        user_name: userName,
                                         onboarding_status: "asking_ai_name",
                                     })
                                     .select()
@@ -44,7 +45,12 @@ async function upsertPersona(userId, botName, systemPrompt = null) {
     };
     if(systemPrompt) data.system_prompt = systemPrompt;
     
-    await supabase.from("bot_personas").upsert(data);
+    const { error } = await supabase.from("bot_personas").upsert(data, { onConflict: "user_id"});
+
+    if(error) {
+        console.error("UpsertPersona error", error);
+        throw error
+    }
 }
 
 async function getPersona(userId) {

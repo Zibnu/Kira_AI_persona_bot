@@ -8,11 +8,12 @@ const bot = new Bot(process.env.TELE_BOT);
 
 bot.command("start", async (ctx) => {
     const userId = ctx.from.id.toString();
+    const userName = ctx.from.first_name || ctx.from.username || "Teman";
     try {
         let user = await dbService.getUser(userId);
 
         if(!user) {
-            await dbService.createUser(userId);
+            await dbService.createUser(userId, userName);
         } else {
             await dbService.updateUserStatus(userId, "asking_ai_name");
         }
@@ -29,13 +30,14 @@ bot.command("start", async (ctx) => {
 bot.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();
     const text = ctx.message.text;
+    const userName = ctx.from.first_name || ctx.from.username || "Teman";
 
     try {
         let user = await dbService.getUser(userId);
         console.log(`User ${user}`);
 
         if(!user) {
-            user = await dbService.createUser(userId);
+            user = await dbService.createUser(userId, userName);
         }
 
         if(user.onboarding_status !== "completed") {

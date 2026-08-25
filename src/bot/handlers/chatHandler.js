@@ -10,13 +10,14 @@ async function handleMainChat(ctx, user, text) {
         const persona = await dbService.getPersona(userId);
         const history = await dbService.getChatHistory(userId);
 
-        const { reply, updateHistory } = await aiService.generateAIResponse(
-            persona.bot_name,
-            persona.system_prompt,
-            user.user_bio,
+        const { reply, updateHistory } = await aiService.generateAIResponse({
+            botName: persona.bot_name,
+            botPersona: persona.system_prompt,
+            userName: user.user_name,
+            userBio: user.user_bio,
             history,
-            text
-        );
+            userText: text,
+        });
 
         await dbService.saveChartHistory(userId, updateHistory);
 
