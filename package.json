@@ -1,0 +1,14 @@
+{
+  "name": "bot_tele",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.18.0",
+    "@supabase/supabase-js": "^2.112.4",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "grammy": "^1.45.1"
+  }
+}
