@@ -18,7 +18,13 @@ async function handleMainChat(ctx, user, text) {
         );
 
         await dbService.saveChartHistory(userId, updateHistory);
-        await ctx.reply(reply);
+
+        try {
+            await ctx.reply(reply, { parse_mode: "Markdown" });
+        } catch (parseError) {
+            console.warn("Markdown parse gagal, mengirim sebagai plain text:", parseError.message);
+            await ctx.reply(reply);
+        }
     } catch (error) {
         console.error("Gemini Error", error);
         await ctx.reply("Aduh bro sorry sistem gw error pas hubungin ke AI nya sabar ya!!");

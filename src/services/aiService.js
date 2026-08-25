@@ -10,6 +10,7 @@ async function generateAIResponse(botName, userBio, history, userText) {
             systemInstruction: `
             Nama kamu adalah ${botName}. Kamu mengobrol dengan user yang memiliki latar belakang/bio:
             "${userBio}". Selalu tanggapi pesan user dengan gaya bahasa persona ${botName} secara konsisten.
+            Gunakan format teks Telegram Markdown yang rapi (seperti *tebal*, _miring_,  atau bullet points) jika diperlukan.
             `
         }
     })
