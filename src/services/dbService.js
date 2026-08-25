@@ -1,4 +1,4 @@
-const supabase = require("../config/supabase");
+const supabase = require("../config/supabase.js");
 
 async function getUser(userId) {
     const { data } = await supabase.from("users")
