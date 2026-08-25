@@ -1,17 +1,17 @@
-const { GoogleGenAI, Models } = require("@google/genai");
+const express = require("express");
+
+const app = express();
+app.use(express.json());
 require("dotenv").config();
 
-const gemini = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-});
 
-const interaction = async() => {
-    const data = await gemini.interactions.create({
-        model: "gemini-3.1-flash-lite",
-        input: "Who is Prabowo in indonesia",
-    });
+app.get("/", (req, res) => {
+    res.json({
+        message: "success",
+    })
+})
 
-    return data.output_text;
+const PORT = process.env.PORT;
+if(process.env.NODE_ENV !== "productin") {
+    app.listen(PORT, () => console.log("Server is Running"));
 }
-
-console.log(interaction())
