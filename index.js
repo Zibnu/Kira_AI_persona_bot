@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 })
 
 const PORT = process.env.PORT;
-if(process.env.NODE_ENV !== "production") {
+
     app.listen(PORT, async () => {
         console.log(`Server Is Runing on ${PORT}`);
 
@@ -22,4 +22,3 @@ if(process.env.NODE_ENV !== "production") {
             console.log(`Webhook telegram di daftarkan ke ${fullWebhookUrl}`);
         }
     });
-}
