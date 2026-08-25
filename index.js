@@ -18,7 +18,11 @@ const PORT = process.env.PORT;
 
         if(process.env.WEBHOOK_URL) {
             const fullWebhookUrl = `${process.env.WEBHOOK_URL}/telegram-webhook`;
-            await bot.api.setWebhook(fullWebhookUrl);
-            console.log(`Webhook telegram di daftarkan ke ${fullWebhookUrl}`);
+            try {
+                await bot.api.setWebhook(fullWebhookUrl);
+                console.log(`Webhook telegram di daftarkan ke ${fullWebhookUrl}`);
+            } catch (webhookErr) {
+                console.error("Gagal Mendaftarkan webhook ke telegram", webhookErr.message);
+            }
         }
     });
