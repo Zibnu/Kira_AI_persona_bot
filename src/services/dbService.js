@@ -36,12 +36,15 @@ async function updateUserStatus(userId, status, bio = null) {
     await supabase.from("users").update(updateData).eq("user_id", userId);
 }
 
-async function upsertPersona(userId, botName) {
-    await supabase.from("bot_personas").upsert({
+async function upsertPersona(userId, botName, systemPrompt = null) {
+    const data = {
         user_id: userId,
         bot_name: botName,
         updated_at: new Date(),
-    });
+    };
+    if(systemPrompt) data.system_prompt = systemPrompt;
+    
+    await supabase.from("bot_personas").upsert(data);
 }
 
 async function getPersona(userId) {

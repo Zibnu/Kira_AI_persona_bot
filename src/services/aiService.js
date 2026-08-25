@@ -1,17 +1,25 @@
 const genAI = require("../config/gemini.js");
 
-async function generateAIResponse(botName, userBio, history, userText) {
+async function generateAIResponse(botName, botPersona,userBio, history, userText) {
     let limitedHistory = history.length > 10 ? history.slice(-10) : history;
 
     const chat = genAI.chats.create({
         model: "gemini-3.1-flash-lite",
         history: limitedHistory,
         config: {
-            systemInstruction: `
-            Nama kamu adalah ${botName}. Kamu mengobrol dengan user yang memiliki latar belakang/bio:
-            "${userBio}". Selalu tanggapi pesan user dengan gaya bahasa persona ${botName} secara konsisten.
-            Gunakan format teks Telegram Markdown yang rapi (seperti *tebal*, _miring_,  atau bullet points) jika diperlukan.
-            `
+            systemInstruction: `                                                                                                                                  
+                Nama kamu: ${botName}                                                                                                                                 
+                Kepribadian & Karakter kamu: "${botPersona || 'Teman santai dan asik'}"                                                                               
+                Latar belakang user yang mengobrol denganmu: "${userBio || 'Teman'}"                                                                                  
+                                                                                                                                                                      
+                ATURAN CHATTING (PENTING):                                                                                                                            
+                1. Selalu berbicara sesuai dengan kepribadian dan gaya bahasamu secara konsisten.                                                                     
+                2. Bersikaplah seperti sedang mengobrol di Telegram/WhatsApp: santai, luwes, dan alami.                                                               
+                3. HINDARI jawaban panjang yang bertele-tele seperti artikel/esai. Jika user hanya bercanda, menyapa, atau bertanya singkat, balas secara singkat (1-3
+  kalimat saja) dan to-the-point.                                                                                                                                     
+                4. Hanya berikan penjelasan panjang jika user secara eksplisit memintanya (misal: "jelaskan detail...", "buatkan tutorial...").                       
+                5. Gunakan format Markdown Telegram (*tebal*, _miring_, \`code\`) seperlunya agar rapi.                                                               
+                `
         }
     })
 

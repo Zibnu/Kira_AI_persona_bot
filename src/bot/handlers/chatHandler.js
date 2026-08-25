@@ -12,6 +12,7 @@ async function handleMainChat(ctx, user, text) {
 
         const { reply, updateHistory } = await aiService.generateAIResponse(
             persona.bot_name,
+            persona.system_prompt,
             user.user_bio,
             history,
             text
