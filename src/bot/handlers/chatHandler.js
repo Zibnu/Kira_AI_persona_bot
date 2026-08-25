@@ -1,0 +1,28 @@
+const dbService = require("../../services/dbService.js");
+const aiService = require("../../services/aiService.js");
+
+async function handleMainChat(ctx, user, text) {
+    const userId = user.user_id;
+
+    await ctx.replyWithChatAction("typing");
+
+    try {
+        const persona = await dbService.getPersona(userId);
+        const history = await dbService.getChatHistory(userId);
+
+        const { reply, updatedHistory } = await aiService.generateAIResponse(
+            persona.bot_name,
+            user.user_bio,
+            history,
+            text
+        );
+
+        await dbService.saveChartHistory(userId, updatedHistory);
+        await ctx.reply(reply);
+    } catch (error) {
+        console.error("Gemini Error", error);
+        await ctx.reply("Aduh bro sorry sistem gw error pas hubungin ke AI nya sabar ya!!");
+    }
+}
+
+module.exports = { handleMainChat };

@@ -1,4 +1,4 @@
-const dbService = require("../../services/dbService");
+const dbService = require("../../services/dbService.js");
 
 async function handleOnBoarding(ctx, user, text) {
     const userId = user.user_id;
@@ -6,7 +6,7 @@ async function handleOnBoarding(ctx, user, text) {
     if(user.onboarding_status === "asking_ai_name") {
         await dbService.upsertPersona(userId, text);
         await dbService.updateUserStatus(userId, "asking_user_info");
-        return ctx.repply(
+        return ctx.reply(
             `
             Nama AI berhasil diatur ke: *${text}*!\n\nSekarang ceritakan sedikit tentang diri kamu (nama panggilan, 
             hobi, atau profesi kamu).
@@ -17,7 +17,7 @@ async function handleOnBoarding(ctx, user, text) {
 
     if(user.onboarding_status === "asking_user_info") {
         await dbService.updateUserStatus(userId, "completed", text);
-        return ctx.repply(
+        return ctx.reply(
             `Selesai! Data kamu dan persona AI sudah tersimpan.\n\nSekarang kamu bisa mulai mengobrol!`
         );
     }
