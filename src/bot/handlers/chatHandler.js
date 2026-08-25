@@ -10,14 +10,14 @@ async function handleMainChat(ctx, user, text) {
         const persona = await dbService.getPersona(userId);
         const history = await dbService.getChatHistory(userId);
 
-        const { reply, updatedHistory } = await aiService.generateAIResponse(
+        const { reply, updateHistory } = await aiService.generateAIResponse(
             persona.bot_name,
             user.user_bio,
             history,
             text
         );
 
-        await dbService.saveChartHistory(userId, updatedHistory);
+        await dbService.saveChartHistory(userId, updateHistory);
         await ctx.reply(reply);
     } catch (error) {
         console.error("Gemini Error", error);

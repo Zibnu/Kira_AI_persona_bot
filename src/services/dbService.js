@@ -1,16 +1,19 @@
 const supabase = require("../config/supabase.js");
 
 async function getUser(userId) {
-    const { data } = await supabase.from("users")
+    const { data,error } = await supabase.from("users")
                                     .select("*")
                                     .eq("user_id", userId)
                                     .single();
 
+    if(error && error.code !== "PGRST116") {
+        console.error("Supabase get user error:", error);
+    }
     return data;
 }
 
 async function createUser(userId) {
-    const { data } = await supabase.from("users")
+    const { data,error } = await supabase.from("users")
                                     .insert({
                                         user_id: userId,
                                         onboarding_status: "asking_ai_name",
@@ -18,6 +21,11 @@ async function createUser(userId) {
                                     .select()
                                     .single();
 
+
+    if(error) {
+        console.error("Supabase create user error", error);
+        throw error;
+    }
     return data;
 }
 
@@ -25,7 +33,7 @@ async function updateUserStatus(userId, status, bio = null) {
     const updateData = { onboarding_status: status};
     if(bio) updateData.user_bio = bio;
 
-    await supabase.from("uses").update(updateData).eq("user_id", userId);
+    await supabase.from("users").update(updateData).eq("user_id", userId);
 }
 
 async function upsertPersona(userId, botName) {
