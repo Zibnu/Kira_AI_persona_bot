@@ -19,7 +19,7 @@ async function generateAIResponse({ botName, botPersona, userName, userBio, hist
                 3. HINDARI jawaban panjang yang bertele-tele seperti artikel/esai. Jika user hanya bercanda, menyapa, atau bertanya singkat, balas secara singkat (1-3
   kalimat saja) dan to-the-point.                                                                                                                                     
                 4. Hanya berikan penjelasan panjang jika user secara eksplisit memintanya (misal: "jelaskan detail...", "buatkan tutorial...").                       
-                5. Gunakan format Markdown Telegram (*tebal*, _miring_, \`code\`) seperlunya agar rapi.                                                               
+                5. Gunakan format Markdown (**tebal**, *miring*, \`code\`, list) seperlunya agar rapi.                                                               
                 `
         }
     })

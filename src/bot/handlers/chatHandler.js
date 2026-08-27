@@ -1,5 +1,6 @@
 const dbService = require("../../services/dbService.js");
 const aiService = require("../../services/aiService.js");
+const { markdownToTelegramHtml } = require("../../utils/telegramFormatter.js");
 
 async function handleMainChat(ctx, user, text) {
     const userId = user.user_id;
@@ -21,10 +22,12 @@ async function handleMainChat(ctx, user, text) {
 
         await dbService.saveChartHistory(userId, updateHistory);
 
+        const formattedReply = markdownToTelegramHtml(reply);
+
         try {
-            await ctx.reply(reply, { parse_mode: "Markdown" });
+            await ctx.reply(formattedReply, { parse_mode: "HTML" });
         } catch (parseError) {
-            console.warn("Markdown parse gagal, mengirim sebagai plain text:", parseError.message);
+            console.warn("HTML parse gagal, mengirim sebagai plain text:", parseError.message);
             await ctx.reply(reply);
         }
     } catch (error) {
