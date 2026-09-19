@@ -4,7 +4,7 @@ async function generateAIResponse({ botName, botPersona, userName, userBio, hist
     let limitedHistory = (history.length > 10) ? history.slice(-10) : (history || []);
 
     const chat = genAI.chats.create({
-        model: "gemini-3.1-flash-lite",
+        model: "gemini-3.5-flash",
         history: limitedHistory,
         config: {
             systemInstruction: `                                                                                                                                  
